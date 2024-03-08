@@ -39,7 +39,6 @@ class MyThemeData {
     appBarTheme: AppBarTheme(
       backgroundColor: lightColor,
       iconTheme: IconThemeData(color: Colors.white, size: 30),
-
       centerTitle: false,
     ),
   );

@@ -17,10 +17,16 @@ class _HomeLayoutState extends State<HomeLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70,
+
+        elevation: 0,
+        backgroundColor: Color(0xff5D9CEC),
+
+        toolbarHeight: 65,
         title: Text(
           'TO Do List',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 25
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -42,7 +48,8 @@ class _HomeLayoutState extends State<HomeLayout> {
         child: BottomNavigationBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          iconSize: 22,
+          iconSize: 21,
+          selectedItemColor: Colors.lightBlue,
           currentIndex: index,
           onTap: (value) {
 
