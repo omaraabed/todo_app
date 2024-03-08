@@ -26,7 +26,7 @@ class _TaskTabState extends State<TaskTab> {
               DateTime.now(),
               initialSelectedDate: DateTime.now(),
               selectionColor: Color(0xff5D9CEC),
-              height: 110,
+              height: 113,
               selectedTextColor: Colors.white,
               onDateChange: (newdate) {
                 // New date selected

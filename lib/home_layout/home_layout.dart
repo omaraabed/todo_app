@@ -17,17 +17,14 @@ class _HomeLayoutState extends State<HomeLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         elevation: 0,
         backgroundColor: Color(0xff5D9CEC),
-
-        toolbarHeight: 65,
-        title: Text(
-          'TO Do List',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontSize: 25
-          ),
-        ),
+        toolbarHeight: 70,
+        title: Text('TO Do List',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 22)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -52,7 +49,6 @@ class _HomeLayoutState extends State<HomeLayout> {
           selectedItemColor: Colors.lightBlue,
           currentIndex: index,
           onTap: (value) {
-
             index = value;
             setState(() {});
           },
@@ -75,14 +71,16 @@ class _HomeLayoutState extends State<HomeLayout> {
   }
 
   List<Widget> tabs = [TaskTab(), SettingsTab()];
-  void ShowAddTaskSheet(){
 
-    showModalBottomSheet(context: context,
+  void ShowAddTaskSheet() {
+    showModalBottomSheet(
+      context: context,
       isScrollControlled: true,
-      builder:(context) => Padding(
-        padding:  EdgeInsets.only(bottom:
-        MediaQuery.of(context).viewInsets.bottom),
+      builder: (context) => Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: AddTaskBTN(),
-      ), );
+      ),
+    );
   }
 }
