@@ -28,7 +28,7 @@ class MyThemeData {
       bodySmall: GoogleFonts.poppins(
         fontWeight: FontWeight.bold,
         fontSize: 18,
-        color: lightGreenColor,
+        color: greenColor,
       ),
       displaySmall: GoogleFonts.roboto(
         fontWeight: FontWeight.bold,

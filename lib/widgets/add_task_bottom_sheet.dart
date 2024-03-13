@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/model/atsk_model.dart';
+import 'package:to_do/shared/network/firebase/firebase.dart';
 
 class AddTaskBTN extends StatefulWidget {
   @override
@@ -7,7 +9,9 @@ class AddTaskBTN extends StatefulWidget {
 
 class _AddTaskBTNState extends State<AddTaskBTN> {
   var formKay = GlobalKey<FormState>();
-  String data = DateTime.now().toString().substring(0, 10);
+  var date = DateTime.now();
+  var titleControl = TextEditingController();
+  var descriptionControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,7 @@ class _AddTaskBTNState extends State<AddTaskBTN> {
                 height: 10,
               ),
               TextFormField(
+                controller: titleControl,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please Enter Your Title ';
@@ -64,6 +69,7 @@ class _AddTaskBTNState extends State<AddTaskBTN> {
                 height: 10,
               ),
               TextFormField(
+                controller: descriptionControl,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please Enter Your Task Description ';
@@ -90,14 +96,14 @@ class _AddTaskBTNState extends State<AddTaskBTN> {
                         borderSide: BorderSide(color: Colors.lightBlue))),
               ),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    'Select Data',
+                    'Select Date',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
@@ -106,41 +112,51 @@ class _AddTaskBTNState extends State<AddTaskBTN> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              InkWell(
-                onTap: () {
-                  chooseDate();
-                },
-                child: Text(data,
-                    style: TextStyle(
-                      color: Colors.black45,
-                      fontSize: 18,
-                    )),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKay.currentState!.validate()) {
-                    print('object');
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0)),
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, right: 7, left: 7)),
-                child: Text(
-                  'Add Task',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 5.0),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        chooseDate();
+                      },
+                      child: Text(date.toString().substring(0, 10),
+                          style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 18,
+                          )),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (formKay.currentState!.validate()) {
+                          TaskModel task = TaskModel(
+                              title: titleControl.text,
+                              date: date.millisecondsSinceEpoch,
+                              description: descriptionControl.text,
+                              statue: false);
+                          FireBaseFunction.addTaskToFirestore(task)
+                              .then((value) {
+                            Navigator.pop(context);
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightBlue,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          padding: EdgeInsets.only(
+                              top: 8, bottom: 8, right: 7, left: 7)),
+                      child: Text(
+                        'Add Task',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -157,7 +173,7 @@ class _AddTaskBTNState extends State<AddTaskBTN> {
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 365 * 100)));
     if (selected != null) {
-      data = selected.toString().substring(0, 10);
+      date = DateUtils.dateOnly(selected);
       setState(() {});
     }
   }

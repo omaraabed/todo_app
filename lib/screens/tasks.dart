@@ -1,6 +1,8 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do/model/atsk_model.dart';
+import 'package:to_do/shared/network/firebase/firebase.dart';
 
 import '../widgets/task_item.dart';
 
@@ -35,13 +37,20 @@ class _TaskTabState extends State<TaskTab> {
                 });
               },
             ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return TaskItem();
-                },
-                itemCount: 10,
-              ),
+            StreamBuilder(
+              stream: FireBaseFunction.getTaskFirestore(data),
+              builder: (context, snapshot) {
+                List<TaskModel> tasks =
+                    snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];
+                return Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return TaskItem(tasks[index]);
+                    },
+                    itemCount: tasks.length,
+                  ),
+                );
+              },
             )
           ],
         ),
